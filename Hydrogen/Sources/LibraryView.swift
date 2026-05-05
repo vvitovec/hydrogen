@@ -3,6 +3,7 @@ import SwiftUI
 struct LibraryView: View {
     @EnvironmentObject private var store: BrowserStore
     @Environment(\.dismiss) private var dismiss
+    @State private var isConfirmingClearHistory = false
 
     var body: some View {
         NavigationStack {
@@ -33,11 +34,17 @@ struct LibraryView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     if store.libraryMode == .history {
                         Button("Clear") {
-                            store.clearHistory()
+                            isConfirmingClearHistory = true
                         }
                         .disabled(store.history.isEmpty)
                     }
                 }
+            }
+            .confirmationDialog("Clear browsing history?", isPresented: $isConfirmingClearHistory, titleVisibility: .visible) {
+                Button("Clear History", role: .destructive) {
+                    store.clearHistory()
+                }
+                Button("Cancel", role: .cancel) {}
             }
         }
     }
@@ -144,12 +151,15 @@ private struct LibraryEntryRow: View {
                             .font(.system(size: 16, weight: .semibold))
                             .foregroundStyle(HydrogenTheme.ink)
                             .lineLimit(1)
+                            .truncationMode(.tail)
 
                         Text(subtitle)
                             .font(.system(size: 12))
                             .foregroundStyle(HydrogenTheme.mutedInk)
                             .lineLimit(1)
+                            .truncationMode(.middle)
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
                     Spacer(minLength: 8)
                 }
@@ -232,11 +242,14 @@ private struct SettingsToggleRow: View {
                 Text(title)
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundStyle(HydrogenTheme.ink)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
                 Text(detail)
                     .font(.system(size: 12))
                     .foregroundStyle(HydrogenTheme.mutedInk)
                     .fixedSize(horizontal: false, vertical: true)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
 
             Spacer(minLength: 8)
 
@@ -285,6 +298,8 @@ private struct SettingsInfoRow: View {
             Text(title)
                 .font(.system(size: 16, weight: .semibold))
                 .foregroundStyle(HydrogenTheme.ink)
+                .lineLimit(1)
+                .truncationMode(.tail)
 
             Spacer(minLength: 8)
 
@@ -292,6 +307,7 @@ private struct SettingsInfoRow: View {
                 .font(.system(size: 14, weight: .medium))
                 .foregroundStyle(HydrogenTheme.mutedInk)
                 .lineLimit(1)
+                .truncationMode(.middle)
         }
         .padding(12)
         .background(HydrogenTheme.elevatedSurface, in: RoundedRectangle(cornerRadius: 8, style: .continuous))

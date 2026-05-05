@@ -52,7 +52,7 @@ final class DebouncedSnapshotWriter {
         latestSnapshot = snapshot
         pendingTask?.cancel()
 
-        pendingTask = Task { @MainActor [weak self, snapshot, delayNanoseconds] in
+        pendingTask = Task { [weak self, persistence, snapshot, delayNanoseconds] in
             if delayNanoseconds > 0 {
                 do {
                     try await Task.sleep(nanoseconds: delayNanoseconds)
@@ -61,10 +61,16 @@ final class DebouncedSnapshotWriter {
                 }
             }
 
-            guard !Task.isCancelled, let self else { return }
-            self.persistence.save(snapshot)
-            if self.latestSnapshot == snapshot {
-                self.latestSnapshot = nil
+            guard !Task.isCancelled else { return }
+            await Task.detached(priority: .utility) {
+                persistence.save(snapshot)
+            }.value
+
+            await MainActor.run {
+                guard !Task.isCancelled, let self else { return }
+                if self.latestSnapshot == snapshot {
+                    self.latestSnapshot = nil
+                }
             }
         }
     }
@@ -86,8 +92,10 @@ final class DebouncedSnapshotWriter {
 extension JSONEncoder {
     static var hydrogen: JSONEncoder {
         let encoder = JSONEncoder()
-        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-        encoder.dateEncodingStrategy = .iso8601
+        encoder.dateEncodingStrategy = .custom { date, encoder in
+            var container = encoder.singleValueContainer()
+            try container.encode(date.timeIntervalSinceReferenceDate.bitPattern)
+        }
         return encoder
     }
 }
@@ -95,7 +103,32 @@ extension JSONEncoder {
 extension JSONDecoder {
     static var hydrogen: JSONDecoder {
         let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
+        decoder.dateDecodingStrategy = .custom { decoder in
+            let container = try decoder.singleValueContainer()
+            if let bitPattern = try? container.decode(UInt64.self) {
+                return Date(timeIntervalSinceReferenceDate: Double(bitPattern: bitPattern))
+            }
+            if let timestamp = try? container.decode(Double.self) {
+                return Date(timeIntervalSince1970: timestamp)
+            }
+
+            let value = try container.decode(String.self)
+            if let date = DateCodingFormatter.date(from: value, options: [.withInternetDateTime, .withFractionalSeconds]) {
+                return date
+            }
+            if let date = DateCodingFormatter.date(from: value, options: [.withInternetDateTime]) {
+                return date
+            }
+            throw DecodingError.dataCorruptedError(in: container, debugDescription: "Invalid date: \(value)")
+        }
         return decoder
+    }
+}
+
+private enum DateCodingFormatter {
+    static func date(from value: String, options: ISO8601DateFormatter.Options) -> Date? {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = options
+        return formatter.date(from: value)
     }
 }

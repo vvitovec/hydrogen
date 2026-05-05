@@ -63,4 +63,26 @@ final class PersistenceTests: XCTestCase {
         XCTAssertEqual(persistence.load().history.count, 1)
         try? FileManager.default.removeItem(at: url.deletingLastPathComponent())
     }
+
+    @MainActor
+    func testClosingLastTabCreatesFreshRegularTab() throws {
+        let url = FileManager.default.temporaryDirectory
+            .appending(path: UUID().uuidString)
+            .appending(path: "BrowserSnapshot.json")
+        let persistence = BrowserPersistence(fileURL: url)
+        let store = BrowserStore(persistence: persistence, saveDelay: 60)
+
+        guard let originalTab = store.activeTab else {
+            XCTFail("Expected an initial tab")
+            return
+        }
+
+        store.closeTab(originalTab)
+
+        XCTAssertEqual(store.tabs.count, 1)
+        XCTAssertNotEqual(store.activeTab?.id, originalTab.id)
+        XCTAssertEqual(store.activeTab?.isPrivate, false)
+        XCTAssertNil(store.activeTab?.url)
+        try? FileManager.default.removeItem(at: url.deletingLastPathComponent())
+    }
 }

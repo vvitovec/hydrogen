@@ -83,6 +83,7 @@ private struct TabOverviewRow: View {
                                 .font(.system(size: 16, weight: .semibold))
                                 .foregroundStyle(HydrogenTheme.ink)
                                 .lineLimit(1)
+                                .truncationMode(.tail)
 
                             if tab.isPrivate {
                                 Image(systemName: "eye.slash.fill")
@@ -95,7 +96,9 @@ private struct TabOverviewRow: View {
                             .font(.system(size: 12))
                             .foregroundStyle(HydrogenTheme.mutedInk)
                             .lineLimit(1)
+                            .truncationMode(.middle)
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
                     Spacer(minLength: 8)
 

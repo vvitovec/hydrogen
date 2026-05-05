@@ -50,12 +50,14 @@ final class BrowserStore: ObservableObject {
 
     func closeTab(_ tab: BrowserTab) {
         guard tabs.count > 1 else {
-            tab.reset(startPageHTML: startPageHTML())
-            activeTabID = tab.id
+            tab.tearDown()
+            tabs.removeAll { $0.id == tab.id }
+            newTab(isPrivate: false)
             return
         }
 
         let wasActive = tab.id == activeTabID
+        tab.tearDown()
         tabs.removeAll { $0.id == tab.id }
         if wasActive {
             activeTabID = tabs.last?.id

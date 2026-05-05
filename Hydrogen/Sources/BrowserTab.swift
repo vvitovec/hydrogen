@@ -19,6 +19,8 @@ final class BrowserTab: NSObject, ObservableObject, Identifiable {
     var onOpenNewTab: ((URLRequest) -> Void)?
     var onOpenExternal: ((URL) -> Void)?
 
+    private var observations: [NSKeyValueObservation] = []
+
     var displayTitle: String {
         let trimmed = title.trimmingCharacters(in: .whitespacesAndNewlines)
         if !trimmed.isEmpty, trimmed != "New Tab" {
@@ -47,6 +49,7 @@ final class BrowserTab: NSObject, ObservableObject, Identifiable {
         super.init()
         webView.navigationDelegate = self
         webView.uiDelegate = self
+        observeWebViewState()
         refreshState()
     }
 
@@ -74,20 +77,94 @@ final class BrowserTab: NSObject, ObservableObject, Identifiable {
     func reset(startPageHTML: String = StartPage.html()) {
         webView.stopLoading()
         webView.loadHTMLString(startPageHTML, baseURL: nil)
-        title = "New Tab"
-        url = nil
-        estimatedProgress = 0
-        refreshState()
+        applyState(
+            title: "New Tab",
+            url: nil,
+            estimatedProgress: 0,
+            isLoading: webView.isLoading,
+            canGoBack: webView.canGoBack,
+            canGoForward: webView.canGoForward,
+            hasOnlySecureContent: webView.hasOnlySecureContent
+        )
+    }
+
+    func tearDown() {
+        observations.removeAll()
+        webView.stopLoading()
+        webView.navigationDelegate = nil
+        webView.uiDelegate = nil
+        webView.configuration.userContentController.removeAllContentRuleLists()
+        webView.loadHTMLString("", baseURL: nil)
     }
 
     private func refreshState() {
-        title = webView.title ?? title
-        url = webView.url.flatMap { URLNormalizer.isInternalStartURL($0) ? nil : $0 }
-        estimatedProgress = webView.estimatedProgress
-        isLoading = webView.isLoading
-        canGoBack = webView.canGoBack
-        canGoForward = webView.canGoForward
-        hasOnlySecureContent = webView.hasOnlySecureContent
+        applyState(
+            title: webView.title ?? title,
+            url: webView.url.flatMap { URLNormalizer.isInternalStartURL($0) ? nil : $0 },
+            estimatedProgress: webView.estimatedProgress,
+            isLoading: webView.isLoading,
+            canGoBack: webView.canGoBack,
+            canGoForward: webView.canGoForward,
+            hasOnlySecureContent: webView.hasOnlySecureContent
+        )
+    }
+
+    private func observeWebViewState() {
+        observations = [
+            webView.observe(\.title, options: [.new]) { [weak self] _, _ in
+                Task { @MainActor in self?.refreshState() }
+            },
+            webView.observe(\.url, options: [.new]) { [weak self] _, _ in
+                Task { @MainActor in self?.refreshState() }
+            },
+            webView.observe(\.estimatedProgress, options: [.new]) { [weak self] _, _ in
+                Task { @MainActor in self?.refreshState() }
+            },
+            webView.observe(\.isLoading, options: [.new]) { [weak self] _, _ in
+                Task { @MainActor in self?.refreshState() }
+            },
+            webView.observe(\.canGoBack, options: [.new]) { [weak self] _, _ in
+                Task { @MainActor in self?.refreshState() }
+            },
+            webView.observe(\.canGoForward, options: [.new]) { [weak self] _, _ in
+                Task { @MainActor in self?.refreshState() }
+            },
+            webView.observe(\.hasOnlySecureContent, options: [.new]) { [weak self] _, _ in
+                Task { @MainActor in self?.refreshState() }
+            }
+        ]
+    }
+
+    private func applyState(
+        title: String,
+        url: URL?,
+        estimatedProgress: Double,
+        isLoading: Bool,
+        canGoBack: Bool,
+        canGoForward: Bool,
+        hasOnlySecureContent: Bool
+    ) {
+        if self.title != title {
+            self.title = title
+        }
+        if self.url != url {
+            self.url = url
+        }
+        if self.estimatedProgress != estimatedProgress {
+            self.estimatedProgress = estimatedProgress
+        }
+        if self.isLoading != isLoading {
+            self.isLoading = isLoading
+        }
+        if self.canGoBack != canGoBack {
+            self.canGoBack = canGoBack
+        }
+        if self.canGoForward != canGoForward {
+            self.canGoForward = canGoForward
+        }
+        if self.hasOnlySecureContent != hasOnlySecureContent {
+            self.hasOnlySecureContent = hasOnlySecureContent
+        }
     }
 }
 

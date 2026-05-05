@@ -2,7 +2,7 @@ import SwiftUI
 import WebKit
 
 struct BrowserWebView: UIViewRepresentable {
-    @ObservedObject var tab: BrowserTab
+    let tab: BrowserTab
 
     func makeUIView(context: Context) -> WKWebView {
         tab.webView

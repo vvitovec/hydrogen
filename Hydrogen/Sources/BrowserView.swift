@@ -28,23 +28,25 @@ struct BrowserView: View {
                 }
 
                 VStack(spacing: 0) {
-                    ProgressView(value: store.activeTab?.estimatedProgress ?? 0)
-                        .tint(HydrogenTheme.helium)
-                        .opacity(store.activeTab?.isLoading == true ? 1 : 0)
-                        .frame(height: 2)
+                    if let tab = store.activeTab {
+                        BrowserProgressLine(tab: tab)
+                    }
                     Spacer()
                 }
                 .allowsHitTesting(false)
 
-                BrowserCommandBar(
-                    addressText: $addressText,
-                    isAddressFocused: $isAddressFocused,
-                    isShowingTabs: $isShowingTabs,
-                    isShowingLibrary: $isShowingLibrary,
-                    isShowingShareSheet: $isShowingShareSheet
-                )
-                .padding(.horizontal, 10)
-                .padding(.bottom, 6)
+                if let tab = store.activeTab {
+                    BrowserCommandBar(
+                        tab: tab,
+                        addressText: $addressText,
+                        isAddressFocused: $isAddressFocused,
+                        isShowingTabs: $isShowingTabs,
+                        isShowingLibrary: $isShowingLibrary,
+                        isShowingShareSheet: $isShowingShareSheet
+                    )
+                    .padding(.horizontal, 10)
+                    .padding(.bottom, 6)
+                }
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar(.hidden, for: .navigationBar)
@@ -71,8 +73,20 @@ struct BrowserView: View {
     }
 }
 
+private struct BrowserProgressLine: View {
+    @ObservedObject var tab: BrowserTab
+
+    var body: some View {
+        ProgressView(value: tab.estimatedProgress)
+            .tint(HydrogenTheme.helium)
+            .opacity(tab.isLoading ? 1 : 0)
+            .frame(height: 2)
+    }
+}
+
 private struct BrowserCommandBar: View {
     @EnvironmentObject private var store: BrowserStore
+    @ObservedObject var tab: BrowserTab
     @Binding var addressText: String
     let isAddressFocused: FocusState<Bool>.Binding
     @Binding var isShowingTabs: Bool
@@ -89,17 +103,17 @@ private struct BrowserCommandBar: View {
                 CommandIconButton(
                     systemName: "chevron.left",
                     title: "Back",
-                    isEnabled: store.activeTab?.canGoBack == true
+                    isEnabled: tab.canGoBack
                 ) {
-                    store.activeTab?.webView.goBack()
+                    tab.webView.goBack()
                 }
 
                 CommandIconButton(
                     systemName: "chevron.right",
                     title: "Forward",
-                    isEnabled: store.activeTab?.canGoForward == true
+                    isEnabled: tab.canGoForward
                 ) {
-                    store.activeTab?.webView.goForward()
+                    tab.webView.goForward()
                 }
             }
 
@@ -108,7 +122,7 @@ private struct BrowserCommandBar: View {
             if isFocused {
                 Button("Cancel") {
                     isAddressFocused.wrappedValue = false
-                    addressText = store.activeTab?.url?.absoluteString ?? ""
+                    addressText = tab.url?.absoluteString ?? ""
                 }
                 .font(.system(size: 14, weight: .semibold))
                 .foregroundStyle(HydrogenTheme.ink)
@@ -116,11 +130,11 @@ private struct BrowserCommandBar: View {
                 .padding(.horizontal, 6)
             } else {
                 CommandIconButton(
-                    systemName: store.activeTab?.isLoading == true ? "xmark" : "arrow.clockwise",
-                    title: store.activeTab?.isLoading == true ? "Stop" : "Reload",
-                    isEnabled: store.activeTab != nil
+                    systemName: tab.isLoading ? "xmark" : "arrow.clockwise",
+                    title: tab.isLoading ? "Stop" : "Reload",
+                    isEnabled: tab.url != nil || tab.isLoading
                 ) {
-                    store.activeTab?.stopOrReload()
+                    tab.stopOrReload()
                 }
 
                 tabsButton
@@ -208,7 +222,7 @@ private struct BrowserCommandBar: View {
     private var moreMenu: some View {
         Menu {
             Button {
-                store.newTab(isPrivate: store.activeTab?.isPrivate ?? false)
+                store.newTab(isPrivate: tab.isPrivate)
             } label: {
                 Label("New Tab", systemImage: "plus")
             }
@@ -226,14 +240,14 @@ private struct BrowserCommandBar: View {
             } label: {
                 Label(bookmarkTitle, systemImage: bookmarkIconName)
             }
-            .disabled(store.activeTab?.url == nil)
+            .disabled(tab.url == nil)
 
             Button {
                 isShowingShareSheet = true
             } label: {
                 Label("Share", systemImage: "square.and.arrow.up")
             }
-            .disabled(store.activeTab?.url == nil)
+            .disabled(tab.url == nil)
         } label: {
             Image(systemName: "ellipsis")
                 .font(.system(size: 16, weight: .semibold))
@@ -249,17 +263,15 @@ private struct BrowserCommandBar: View {
     }
 
     private var bookmarkTitle: String {
-        guard let tab = store.activeTab else { return "Bookmark" }
         return store.isBookmarked(tab) ? "Remove Bookmark" : "Bookmark"
     }
 
     private var bookmarkIconName: String {
-        guard let tab = store.activeTab else { return "star" }
         return store.isBookmarked(tab) ? "star.slash" : "star"
     }
 
     private var securityIconName: String {
-        guard let tab = store.activeTab, let url = tab.url else { return "magnifyingglass" }
+        guard let url = tab.url else { return "magnifyingglass" }
         if tab.isPrivate {
             return "eye.slash.fill"
         }
@@ -270,7 +282,7 @@ private struct BrowserCommandBar: View {
     }
 
     private var securityIconColor: Color {
-        guard let tab = store.activeTab, let url = tab.url else { return HydrogenTheme.faintInk }
+        guard let url = tab.url else { return HydrogenTheme.faintInk }
         if tab.isPrivate {
             return HydrogenTheme.privateTint
         }
