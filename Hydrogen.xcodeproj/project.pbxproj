@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		100000000000000000000101 /* HeliumApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000001 /* HeliumApp.swift */; };
+		100000000000000000000101 /* HydrogenApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000001 /* HydrogenApp.swift */; };
 		100000000000000000000102 /* BrowserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000002 /* BrowserStore.swift */; };
 		100000000000000000000103 /* BrowserTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000003 /* BrowserTab.swift */; };
 		100000000000000000000104 /* AdBlocker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000004 /* AdBlocker.swift */; };
@@ -23,7 +23,7 @@
 		100000000000000000000115 /* BlockRules.json in Resources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000015 /* BlockRules.json */; };
 		100000000000000000000116 /* URLNormalizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000016 /* URLNormalizerTests.swift */; };
 		100000000000000000000117 /* PersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000017 /* PersistenceTests.swift */; };
-		100000000000000000000118 /* HeliumUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000018 /* HeliumUITests.swift */; };
+		100000000000000000000118 /* HydrogenUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000018 /* HydrogenUITests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,19 +32,19 @@
 			containerPortal = 100000000000000000000301 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 100000000000000000000401;
-			remoteInfo = Helium;
+			remoteInfo = Hydrogen;
 		};
 		100000000000000000000202 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 100000000000000000000301 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 100000000000000000000401;
-			remoteInfo = Helium;
+			remoteInfo = Hydrogen;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		100000000000000000000001 /* HeliumApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeliumApp.swift; sourceTree = "<group>"; };
+		100000000000000000000001 /* HydrogenApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HydrogenApp.swift; sourceTree = "<group>"; };
 		100000000000000000000002 /* BrowserStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserStore.swift; sourceTree = "<group>"; };
 		100000000000000000000003 /* BrowserTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserTab.swift; sourceTree = "<group>"; };
 		100000000000000000000004 /* AdBlocker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdBlocker.swift; sourceTree = "<group>"; };
@@ -60,10 +60,10 @@
 		100000000000000000000015 /* BlockRules.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = BlockRules.json; sourceTree = "<group>"; };
 		100000000000000000000016 /* URLNormalizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLNormalizerTests.swift; sourceTree = "<group>"; };
 		100000000000000000000017 /* PersistenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceTests.swift; sourceTree = "<group>"; };
-		100000000000000000000018 /* HeliumUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeliumUITests.swift; sourceTree = "<group>"; };
-		100000000000000000000501 /* Helium.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Helium.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		100000000000000000000502 /* HeliumTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HeliumTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		100000000000000000000503 /* HeliumUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HeliumUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		100000000000000000000018 /* HydrogenUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HydrogenUITests.swift; sourceTree = "<group>"; };
+		100000000000000000000501 /* Hydrogen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hydrogen.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		100000000000000000000502 /* HydrogenTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HydrogenTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		100000000000000000000503 /* HydrogenUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HydrogenUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,26 +76,26 @@
 		100000000000000000000701 = {
 			isa = PBXGroup;
 			children = (
-				100000000000000000000702 /* Helium */,
-				100000000000000000000705 /* HeliumTests */,
-				100000000000000000000706 /* HeliumUITests */,
+				100000000000000000000702 /* Hydrogen */,
+				100000000000000000000705 /* HydrogenTests */,
+				100000000000000000000706 /* HydrogenUITests */,
 				100000000000000000000707 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		100000000000000000000702 /* Helium */ = {
+		100000000000000000000702 /* Hydrogen */ = {
 			isa = PBXGroup;
 			children = (
 				100000000000000000000703 /* Sources */,
 				100000000000000000000704 /* Resources */,
 			);
-			path = Helium;
+			path = Hydrogen;
 			sourceTree = "<group>";
 		};
 		100000000000000000000703 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				100000000000000000000001 /* HeliumApp.swift */,
+				100000000000000000000001 /* HydrogenApp.swift */,
 				100000000000000000000002 /* BrowserStore.swift */,
 				100000000000000000000003 /* BrowserTab.swift */,
 				100000000000000000000004 /* AdBlocker.swift */,
@@ -120,29 +120,29 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		100000000000000000000705 /* HeliumTests */ = {
+		100000000000000000000705 /* HydrogenTests */ = {
 			isa = PBXGroup;
 			children = (
 				100000000000000000000016 /* URLNormalizerTests.swift */,
 				100000000000000000000017 /* PersistenceTests.swift */,
 			);
-			path = HeliumTests;
+			path = HydrogenTests;
 			sourceTree = "<group>";
 		};
-		100000000000000000000706 /* HeliumUITests */ = {
+		100000000000000000000706 /* HydrogenUITests */ = {
 			isa = PBXGroup;
 			children = (
-				100000000000000000000018 /* HeliumUITests.swift */,
+				100000000000000000000018 /* HydrogenUITests.swift */,
 			);
-			path = HeliumUITests;
+			path = HydrogenUITests;
 			sourceTree = "<group>";
 		};
 		100000000000000000000707 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				100000000000000000000501 /* Helium.app */,
-				100000000000000000000502 /* HeliumTests.xctest */,
-				100000000000000000000503 /* HeliumUITests.xctest */,
+				100000000000000000000501 /* Hydrogen.app */,
+				100000000000000000000502 /* HydrogenTests.xctest */,
+				100000000000000000000503 /* HydrogenUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -150,9 +150,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		100000000000000000000401 /* Helium */ = {
+		100000000000000000000401 /* Hydrogen */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 100000000000000000001101 /* Build configuration list for PBXNativeTarget "Helium" */;
+			buildConfigurationList = 100000000000000000001101 /* Build configuration list for PBXNativeTarget "Hydrogen" */;
 			buildPhases = (
 				100000000000000000000801 /* Sources */,
 				100000000000000000000601 /* Frameworks */,
@@ -160,14 +160,14 @@
 			);
 			buildRules = ();
 			dependencies = ();
-			name = Helium;
-			productName = Helium;
-			productReference = 100000000000000000000501 /* Helium.app */;
+			name = Hydrogen;
+			productName = Hydrogen;
+			productReference = 100000000000000000000501 /* Hydrogen.app */;
 			productType = "com.apple.product-type.application";
 		};
-		100000000000000000000402 /* HeliumTests */ = {
+		100000000000000000000402 /* HydrogenTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 100000000000000000001102 /* Build configuration list for PBXNativeTarget "HeliumTests" */;
+			buildConfigurationList = 100000000000000000001102 /* Build configuration list for PBXNativeTarget "HydrogenTests" */;
 			buildPhases = (
 				100000000000000000000802 /* Sources */,
 				100000000000000000000602 /* Frameworks */,
@@ -177,14 +177,14 @@
 			dependencies = (
 				100000000000000000000203 /* PBXTargetDependency */,
 			);
-			name = HeliumTests;
-			productName = HeliumTests;
-			productReference = 100000000000000000000502 /* HeliumTests.xctest */;
+			name = HydrogenTests;
+			productName = HydrogenTests;
+			productReference = 100000000000000000000502 /* HydrogenTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		100000000000000000000403 /* HeliumUITests */ = {
+		100000000000000000000403 /* HydrogenUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 100000000000000000001103 /* Build configuration list for PBXNativeTarget "HeliumUITests" */;
+			buildConfigurationList = 100000000000000000001103 /* Build configuration list for PBXNativeTarget "HydrogenUITests" */;
 			buildPhases = (
 				100000000000000000000803 /* Sources */,
 				100000000000000000000603 /* Frameworks */,
@@ -194,9 +194,9 @@
 			dependencies = (
 				100000000000000000000204 /* PBXTargetDependency */,
 			);
-			name = HeliumUITests;
-			productName = HeliumUITests;
-			productReference = 100000000000000000000503 /* HeliumUITests.xctest */;
+			name = HydrogenUITests;
+			productName = HydrogenUITests;
+			productReference = 100000000000000000000503 /* HydrogenUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -222,7 +222,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 100000000000000000001100 /* Build configuration list for PBXProject "Helium" */;
+			buildConfigurationList = 100000000000000000001100 /* Build configuration list for PBXProject "Hydrogen" */;
 			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -235,9 +235,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				100000000000000000000401 /* Helium */,
-				100000000000000000000402 /* HeliumTests */,
-				100000000000000000000403 /* HeliumUITests */,
+				100000000000000000000401 /* Hydrogen */,
+				100000000000000000000402 /* HydrogenTests */,
+				100000000000000000000403 /* HydrogenUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -260,7 +260,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				100000000000000000000101 /* HeliumApp.swift in Sources */,
+				100000000000000000000101 /* HydrogenApp.swift in Sources */,
 				100000000000000000000102 /* BrowserStore.swift in Sources */,
 				100000000000000000000103 /* BrowserTab.swift in Sources */,
 				100000000000000000000104 /* AdBlocker.swift in Sources */,
@@ -289,15 +289,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				100000000000000000000118 /* HeliumUITests.swift in Sources */,
+				100000000000000000000118 /* HydrogenUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		100000000000000000000203 /* PBXTargetDependency */ = {isa = PBXTargetDependency; target = 100000000000000000000401 /* Helium */; targetProxy = 100000000000000000000201 /* PBXContainerItemProxy */; };
-		100000000000000000000204 /* PBXTargetDependency */ = {isa = PBXTargetDependency; target = 100000000000000000000401 /* Helium */; targetProxy = 100000000000000000000202 /* PBXContainerItemProxy */; };
+		100000000000000000000203 /* PBXTargetDependency */ = {isa = PBXTargetDependency; target = 100000000000000000000401 /* Hydrogen */; targetProxy = 100000000000000000000201 /* PBXContainerItemProxy */; };
+		100000000000000000000204 /* PBXTargetDependency */ = {isa = PBXTargetDependency; target = 100000000000000000000401 /* Hydrogen */; targetProxy = 100000000000000000000202 /* PBXContainerItemProxy */; };
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -422,7 +422,7 @@
 				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Helium;
+				INFOPLIST_KEY_CFBundleDisplayName = Hydrogen;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -430,7 +430,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.viktorvitovec.helium;
+				PRODUCT_BUNDLE_IDENTIFIER = com.viktorvitovec.hydrogen;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -447,7 +447,7 @@
 				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Helium;
+				INFOPLIST_KEY_CFBundleDisplayName = Hydrogen;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -455,7 +455,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.viktorvitovec.helium;
+				PRODUCT_BUNDLE_IDENTIFIER = com.viktorvitovec.hydrogen;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -471,12 +471,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.viktorvitovec.helium.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.viktorvitovec.hydrogen.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Helium.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Helium";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hydrogen.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Hydrogen";
 			};
 			name = Debug;
 		};
@@ -487,12 +487,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.viktorvitovec.helium.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.viktorvitovec.hydrogen.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Helium.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Helium";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hydrogen.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Hydrogen";
 			};
 			name = Release;
 		};
@@ -502,12 +502,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.viktorvitovec.helium.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.viktorvitovec.hydrogen.uitests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Helium;
+				TEST_TARGET_NAME = Hydrogen;
 			};
 			name = Debug;
 		};
@@ -517,19 +517,19 @@
 				CODE_SIGN_STYLE = Automatic;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.viktorvitovec.helium.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.viktorvitovec.hydrogen.uitests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Helium;
+				TEST_TARGET_NAME = Hydrogen;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		100000000000000000001100 /* Build configuration list for PBXProject "Helium" */ = {
+		100000000000000000001100 /* Build configuration list for PBXProject "Hydrogen" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				100000000000000000001001 /* Debug */,
@@ -538,7 +538,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		100000000000000000001101 /* Build configuration list for PBXNativeTarget "Helium" */ = {
+		100000000000000000001101 /* Build configuration list for PBXNativeTarget "Hydrogen" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				100000000000000000001003 /* Debug */,
@@ -547,7 +547,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		100000000000000000001102 /* Build configuration list for PBXNativeTarget "HeliumTests" */ = {
+		100000000000000000001102 /* Build configuration list for PBXNativeTarget "HydrogenTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				100000000000000000001005 /* Debug */,
@@ -556,7 +556,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		100000000000000000001103 /* Build configuration list for PBXNativeTarget "HeliumUITests" */ = {
+		100000000000000000001103 /* Build configuration list for PBXNativeTarget "HydrogenUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				100000000000000000001007 /* Debug */,

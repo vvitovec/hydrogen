@@ -36,7 +36,7 @@ enum StartPage {
       <body>
         <main>
           <section>
-            <h1>Helium</h1>
+            <h1>Hydrogen</h1>
             <p>Search or enter a website above.</p>
           </section>
         </main>

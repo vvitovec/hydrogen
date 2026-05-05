@@ -1,6 +1,6 @@
-# Helium
+# Hydrogen
 
-Minimal iOS/iPadOS WebKit browser inspired by Helium's low-bloat browsing posture.
+Minimal iOS/iPadOS WebKit browser inspired by lightweight, low-bloat browsing workflows.
 
 ## What is included
 
@@ -16,9 +16,9 @@ Minimal iOS/iPadOS WebKit browser inspired by Helium's low-bloat browsing postur
 Xcode is enough for simulator preview:
 
 ```sh
-open Helium.xcodeproj
+open Hydrogen.xcodeproj
 ```
 
-Select an iPhone or iPad simulator and run the `Helium` scheme.
+Select an iPhone or iPad simulator and run the `Hydrogen` scheme.
 
 For Web Inspector, enable Safari's Develop menu on macOS. Debug builds mark the app's `WKWebView` instances inspectable.

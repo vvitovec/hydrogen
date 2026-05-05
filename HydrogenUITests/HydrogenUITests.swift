@@ -1,6 +1,6 @@
 import XCTest
 
-final class HeliumUITests: XCTestCase {
+final class HydrogenUITests: XCTestCase {
     func testLaunchShowsSearchField() {
         let app = XCUIApplication()
         app.launch()

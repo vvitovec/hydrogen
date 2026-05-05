@@ -1,5 +1,5 @@
 import XCTest
-@testable import Helium
+@testable import Hydrogen
 
 final class URLNormalizerTests: XCTestCase {
     func testPreservesFullHTTPSURL() {

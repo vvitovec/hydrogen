@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct HeliumApp: App {
+struct HydrogenApp: App {
     @StateObject private var store = BrowserStore()
 
     var body: some Scene {

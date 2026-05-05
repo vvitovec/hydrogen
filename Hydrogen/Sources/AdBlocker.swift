@@ -33,7 +33,7 @@ final class AdBlocker {
         }
 
         WKContentRuleListStore.default().compileContentRuleList(
-            forIdentifier: "helium.blockrules.v1",
+            forIdentifier: "hydrogen.blockrules.v1",
             encodedContentRuleList: encodedRules
         ) { [weak self] ruleList, error in
             Task { @MainActor in

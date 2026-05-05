@@ -18,7 +18,7 @@ final class BrowserPersistence {
         }
 
         do {
-            return try JSONDecoder.helium.decode(BrowserSnapshot.self, from: data)
+            return try JSONDecoder.hydrogen.decode(BrowserSnapshot.self, from: data)
         } catch {
             return BrowserSnapshot()
         }
@@ -26,7 +26,7 @@ final class BrowserPersistence {
 
     func save(_ snapshot: BrowserSnapshot) {
         do {
-            let data = try JSONEncoder.helium.encode(snapshot)
+            let data = try JSONEncoder.hydrogen.encode(snapshot)
             let directory = fileURL.deletingLastPathComponent()
             try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
             try data.write(to: fileURL, options: [.atomic])
@@ -37,7 +37,7 @@ final class BrowserPersistence {
 }
 
 extension JSONEncoder {
-    static var helium: JSONEncoder {
+    static var hydrogen: JSONEncoder {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         encoder.dateEncodingStrategy = .iso8601
@@ -46,7 +46,7 @@ extension JSONEncoder {
 }
 
 extension JSONDecoder {
-    static var helium: JSONDecoder {
+    static var hydrogen: JSONDecoder {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
         return decoder
