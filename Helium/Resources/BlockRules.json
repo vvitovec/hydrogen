@@ -1,0 +1,52 @@
+[
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "resource-type": ["script", "image", "style-sheet", "font", "raw"],
+      "if-domain": ["*doubleclick.net", "*googlesyndication.com", "*googleadservices.com", "*adservice.google.com"]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "resource-type": ["script", "image", "raw"],
+      "if-domain": ["*googletagmanager.com", "*google-analytics.com", "*analytics.google.com"]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "resource-type": ["script", "image", "raw"],
+      "if-domain": ["*facebook.net", "*connect.facebook.net", "*ads-twitter.com", "*analytics.twitter.com"]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "resource-type": ["script", "image", "raw"],
+      "if-domain": ["*adnxs.com", "*taboola.com", "*outbrain.com", "*scorecardresearch.com"]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "resource-type": ["script", "image", "raw"],
+      "if-domain": ["*hotjar.com", "*mixpanel.com", "*segment.io", "*sentry-cdn.com"]
+    },
+    "action": {
+      "type": "block"
+    }
+  }
+]

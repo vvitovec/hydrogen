@@ -1,0 +1,571 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 60;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		100000000000000000000101 /* HeliumApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000001 /* HeliumApp.swift */; };
+		100000000000000000000102 /* BrowserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000002 /* BrowserStore.swift */; };
+		100000000000000000000103 /* BrowserTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000003 /* BrowserTab.swift */; };
+		100000000000000000000104 /* AdBlocker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000004 /* AdBlocker.swift */; };
+		100000000000000000000105 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000005 /* Models.swift */; };
+		100000000000000000000106 /* BrowserPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000006 /* BrowserPersistence.swift */; };
+		100000000000000000000107 /* URLNormalizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000007 /* URLNormalizer.swift */; };
+		100000000000000000000108 /* StartPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000008 /* StartPage.swift */; };
+		100000000000000000000109 /* BrowserWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000009 /* BrowserWebView.swift */; };
+		100000000000000000000110 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000010 /* ShareSheet.swift */; };
+		100000000000000000000111 /* BrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000011 /* BrowserView.swift */; };
+		100000000000000000000112 /* TabOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000012 /* TabOverviewView.swift */; };
+		100000000000000000000113 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000013 /* LibraryView.swift */; };
+		100000000000000000000115 /* BlockRules.json in Resources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000015 /* BlockRules.json */; };
+		100000000000000000000116 /* URLNormalizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000016 /* URLNormalizerTests.swift */; };
+		100000000000000000000117 /* PersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000017 /* PersistenceTests.swift */; };
+		100000000000000000000118 /* HeliumUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000018 /* HeliumUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		100000000000000000000201 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 100000000000000000000301 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 100000000000000000000401;
+			remoteInfo = Helium;
+		};
+		100000000000000000000202 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 100000000000000000000301 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 100000000000000000000401;
+			remoteInfo = Helium;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		100000000000000000000001 /* HeliumApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeliumApp.swift; sourceTree = "<group>"; };
+		100000000000000000000002 /* BrowserStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserStore.swift; sourceTree = "<group>"; };
+		100000000000000000000003 /* BrowserTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserTab.swift; sourceTree = "<group>"; };
+		100000000000000000000004 /* AdBlocker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdBlocker.swift; sourceTree = "<group>"; };
+		100000000000000000000005 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		100000000000000000000006 /* BrowserPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserPersistence.swift; sourceTree = "<group>"; };
+		100000000000000000000007 /* URLNormalizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLNormalizer.swift; sourceTree = "<group>"; };
+		100000000000000000000008 /* StartPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartPage.swift; sourceTree = "<group>"; };
+		100000000000000000000009 /* BrowserWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserWebView.swift; sourceTree = "<group>"; };
+		100000000000000000000010 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
+		100000000000000000000011 /* BrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserView.swift; sourceTree = "<group>"; };
+		100000000000000000000012 /* TabOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabOverviewView.swift; sourceTree = "<group>"; };
+		100000000000000000000013 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		100000000000000000000015 /* BlockRules.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = BlockRules.json; sourceTree = "<group>"; };
+		100000000000000000000016 /* URLNormalizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLNormalizerTests.swift; sourceTree = "<group>"; };
+		100000000000000000000017 /* PersistenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceTests.swift; sourceTree = "<group>"; };
+		100000000000000000000018 /* HeliumUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeliumUITests.swift; sourceTree = "<group>"; };
+		100000000000000000000501 /* Helium.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Helium.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		100000000000000000000502 /* HeliumTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HeliumTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		100000000000000000000503 /* HeliumUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HeliumUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		100000000000000000000601 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		100000000000000000000602 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		100000000000000000000603 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		100000000000000000000701 = {
+			isa = PBXGroup;
+			children = (
+				100000000000000000000702 /* Helium */,
+				100000000000000000000705 /* HeliumTests */,
+				100000000000000000000706 /* HeliumUITests */,
+				100000000000000000000707 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		100000000000000000000702 /* Helium */ = {
+			isa = PBXGroup;
+			children = (
+				100000000000000000000703 /* Sources */,
+				100000000000000000000704 /* Resources */,
+			);
+			path = Helium;
+			sourceTree = "<group>";
+		};
+		100000000000000000000703 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				100000000000000000000001 /* HeliumApp.swift */,
+				100000000000000000000002 /* BrowserStore.swift */,
+				100000000000000000000003 /* BrowserTab.swift */,
+				100000000000000000000004 /* AdBlocker.swift */,
+				100000000000000000000005 /* Models.swift */,
+				100000000000000000000006 /* BrowserPersistence.swift */,
+				100000000000000000000007 /* URLNormalizer.swift */,
+				100000000000000000000008 /* StartPage.swift */,
+				100000000000000000000009 /* BrowserWebView.swift */,
+				100000000000000000000010 /* ShareSheet.swift */,
+				100000000000000000000011 /* BrowserView.swift */,
+				100000000000000000000012 /* TabOverviewView.swift */,
+				100000000000000000000013 /* LibraryView.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		100000000000000000000704 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				100000000000000000000015 /* BlockRules.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		100000000000000000000705 /* HeliumTests */ = {
+			isa = PBXGroup;
+			children = (
+				100000000000000000000016 /* URLNormalizerTests.swift */,
+				100000000000000000000017 /* PersistenceTests.swift */,
+			);
+			path = HeliumTests;
+			sourceTree = "<group>";
+		};
+		100000000000000000000706 /* HeliumUITests */ = {
+			isa = PBXGroup;
+			children = (
+				100000000000000000000018 /* HeliumUITests.swift */,
+			);
+			path = HeliumUITests;
+			sourceTree = "<group>";
+		};
+		100000000000000000000707 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				100000000000000000000501 /* Helium.app */,
+				100000000000000000000502 /* HeliumTests.xctest */,
+				100000000000000000000503 /* HeliumUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		100000000000000000000401 /* Helium */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 100000000000000000001101 /* Build configuration list for PBXNativeTarget "Helium" */;
+			buildPhases = (
+				100000000000000000000801 /* Sources */,
+				100000000000000000000601 /* Frameworks */,
+				100000000000000000000901 /* Resources */,
+			);
+			buildRules = ();
+			dependencies = ();
+			name = Helium;
+			productName = Helium;
+			productReference = 100000000000000000000501 /* Helium.app */;
+			productType = "com.apple.product-type.application";
+		};
+		100000000000000000000402 /* HeliumTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 100000000000000000001102 /* Build configuration list for PBXNativeTarget "HeliumTests" */;
+			buildPhases = (
+				100000000000000000000802 /* Sources */,
+				100000000000000000000602 /* Frameworks */,
+				100000000000000000000902 /* Resources */,
+			);
+			buildRules = ();
+			dependencies = (
+				100000000000000000000203 /* PBXTargetDependency */,
+			);
+			name = HeliumTests;
+			productName = HeliumTests;
+			productReference = 100000000000000000000502 /* HeliumTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		100000000000000000000403 /* HeliumUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 100000000000000000001103 /* Build configuration list for PBXNativeTarget "HeliumUITests" */;
+			buildPhases = (
+				100000000000000000000803 /* Sources */,
+				100000000000000000000603 /* Frameworks */,
+				100000000000000000000903 /* Resources */,
+			);
+			buildRules = ();
+			dependencies = (
+				100000000000000000000204 /* PBXTargetDependency */,
+			);
+			name = HeliumUITests;
+			productName = HeliumUITests;
+			productReference = 100000000000000000000503 /* HeliumUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		100000000000000000000301 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2640;
+				LastUpgradeCheck = 2640;
+				TargetAttributes = {
+					100000000000000000000401 = {
+						CreatedOnToolsVersion = 26.4;
+					};
+					100000000000000000000402 = {
+						CreatedOnToolsVersion = 26.4;
+						TestTargetID = 100000000000000000000401;
+					};
+					100000000000000000000403 = {
+						CreatedOnToolsVersion = 26.4;
+						TestTargetID = 100000000000000000000401;
+					};
+				};
+			};
+			buildConfigurationList = 100000000000000000001100 /* Build configuration list for PBXProject "Helium" */;
+			compatibilityVersion = "Xcode 15.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 100000000000000000000701;
+			productRefGroup = 100000000000000000000707 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				100000000000000000000401 /* Helium */,
+				100000000000000000000402 /* HeliumTests */,
+				100000000000000000000403 /* HeliumUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		100000000000000000000901 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				100000000000000000000115 /* BlockRules.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		100000000000000000000902 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		100000000000000000000903 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		100000000000000000000801 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				100000000000000000000101 /* HeliumApp.swift in Sources */,
+				100000000000000000000102 /* BrowserStore.swift in Sources */,
+				100000000000000000000103 /* BrowserTab.swift in Sources */,
+				100000000000000000000104 /* AdBlocker.swift in Sources */,
+				100000000000000000000105 /* Models.swift in Sources */,
+				100000000000000000000106 /* BrowserPersistence.swift in Sources */,
+				100000000000000000000107 /* URLNormalizer.swift in Sources */,
+				100000000000000000000108 /* StartPage.swift in Sources */,
+				100000000000000000000109 /* BrowserWebView.swift in Sources */,
+				100000000000000000000110 /* ShareSheet.swift in Sources */,
+				100000000000000000000111 /* BrowserView.swift in Sources */,
+				100000000000000000000112 /* TabOverviewView.swift in Sources */,
+				100000000000000000000113 /* LibraryView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		100000000000000000000802 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				100000000000000000000116 /* URLNormalizerTests.swift in Sources */,
+				100000000000000000000117 /* PersistenceTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		100000000000000000000803 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				100000000000000000000118 /* HeliumUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		100000000000000000000203 /* PBXTargetDependency */ = {isa = PBXTargetDependency; target = 100000000000000000000401 /* Helium */; targetProxy = 100000000000000000000201 /* PBXContainerItemProxy */; };
+		100000000000000000000204 /* PBXTargetDependency */ = {isa = PBXTargetDependency; target = 100000000000000000000401 /* Helium */; targetProxy = 100000000000000000000202 /* PBXContainerItemProxy */; };
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		100000000000000000001001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		100000000000000000001002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		100000000000000000001003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Helium;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.viktorvitovec.helium;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		100000000000000000001004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Helium;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.viktorvitovec.helium;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		100000000000000000001005 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.viktorvitovec.helium.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Helium.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Helium";
+			};
+			name = Debug;
+		};
+		100000000000000000001006 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.viktorvitovec.helium.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Helium.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Helium";
+			};
+			name = Release;
+		};
+		100000000000000000001007 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.viktorvitovec.helium.uitests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Helium;
+			};
+			name = Debug;
+		};
+		100000000000000000001008 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.viktorvitovec.helium.uitests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Helium;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		100000000000000000001100 /* Build configuration list for PBXProject "Helium" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				100000000000000000001001 /* Debug */,
+				100000000000000000001002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		100000000000000000001101 /* Build configuration list for PBXNativeTarget "Helium" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				100000000000000000001003 /* Debug */,
+				100000000000000000001004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		100000000000000000001102 /* Build configuration list for PBXNativeTarget "HeliumTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				100000000000000000001005 /* Debug */,
+				100000000000000000001006 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		100000000000000000001103 /* Build configuration list for PBXNativeTarget "HeliumUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				100000000000000000001007 /* Debug */,
+				100000000000000000001008 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 100000000000000000000301 /* Project object */;
+}
