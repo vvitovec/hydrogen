@@ -83,6 +83,7 @@ final class PersistenceTests: XCTestCase {
         XCTAssertNotEqual(store.activeTab?.id, originalTab.id)
         XCTAssertEqual(store.activeTab?.isPrivate, false)
         XCTAssertNil(store.activeTab?.url)
+        XCTAssertNil(store.activeTab?.webView)
         try? FileManager.default.removeItem(at: url.deletingLastPathComponent())
     }
 
@@ -99,6 +100,7 @@ final class PersistenceTests: XCTestCase {
             return
         }
 
+        store.open(URL(string: "https://example.com")!, inNewTab: false)
         store.newTab(isPrivate: false)
         guard let secondTab = store.activeTab else {
             XCTFail("Expected a second tab")
@@ -106,13 +108,13 @@ final class PersistenceTests: XCTestCase {
         }
 
         XCTAssertNotNil(firstTab.webView)
-        XCTAssertNotNil(secondTab.webView)
+        XCTAssertNil(secondTab.webView)
 
         store.handleMemoryPressure()
 
         XCTAssertNil(firstTab.webView)
         XCTAssertTrue(firstTab.isSuspended)
-        XCTAssertNotNil(secondTab.webView)
+        XCTAssertNil(secondTab.webView)
         XCTAssertFalse(secondTab.isSuspended)
 
         store.selectTab(firstTab)

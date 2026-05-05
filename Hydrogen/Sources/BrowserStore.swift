@@ -17,7 +17,6 @@ final class BrowserStore: ObservableObject {
     private let persistence: BrowserPersistence
     private let snapshotWriter: DebouncedSnapshotWriter
     private let inactiveTabSuspensionDelay: TimeInterval
-    private var cachedStartPageHTML: String?
     private var tabSuspensionTask: Task<Void, Never>?
 
     var activeTab: BrowserTab? {
@@ -57,7 +56,7 @@ final class BrowserStore: ObservableObject {
         if let request {
             tab.load(request)
         } else {
-            tab.reset(startPageHTML: startPageHTML())
+            tab.reset()
         }
         scheduleInactiveTabSuspension()
     }
@@ -75,14 +74,14 @@ final class BrowserStore: ObservableObject {
         tabs.removeAll { $0.id == tab.id }
         if wasActive {
             activeTabID = tabs.last?.id
-            activeTab?.restore(startPageHTML: startPageHTML())
+            activeTab?.restore()
         }
         scheduleInactiveTabSuspension()
     }
 
     func selectTab(_ tab: BrowserTab) {
         guard tabs.contains(where: { $0.id == tab.id }) else { return }
-        tab.restore(startPageHTML: startPageHTML())
+        tab.restore()
         activeTabID = tab.id
         scheduleInactiveTabSuspension()
     }
@@ -118,7 +117,6 @@ final class BrowserStore: ObservableObject {
         } else {
             bookmarks.insert(BookmarkItem(title: tab.displayTitle, url: url), at: 0)
         }
-        invalidateStartPageHTML()
         save()
     }
 
@@ -129,19 +127,16 @@ final class BrowserStore: ObservableObject {
 
     func deleteBookmarks(at offsets: IndexSet) {
         bookmarks.remove(atOffsets: offsets)
-        invalidateStartPageHTML()
         save()
     }
 
     func deleteHistory(at offsets: IndexSet) {
         history.remove(atOffsets: offsets)
-        invalidateStartPageHTML()
         save()
     }
 
     func clearHistory() {
         history.removeAll()
-        invalidateStartPageHTML()
         save()
     }
 
@@ -201,7 +196,6 @@ final class BrowserStore: ObservableObject {
         if history.count > Self.historyLimit {
             history.removeLast(history.count - Self.historyLimit)
         }
-        invalidateStartPageHTML()
         save()
     }
 
@@ -213,22 +207,8 @@ final class BrowserStore: ObservableObject {
         BrowserSnapshot(bookmarks: bookmarks, history: history, settings: settings)
     }
 
-    private func startPageHTML() -> String {
-        if let cachedStartPageHTML {
-            return cachedStartPageHTML
-        }
-
-        let html = StartPage.html(bookmarks: bookmarks, history: history)
-        cachedStartPageHTML = html
-        return html
-    }
-
     private var loadedWebViews: [WKWebView] {
         tabs.compactMap(\.webView)
-    }
-
-    private func invalidateStartPageHTML() {
-        cachedStartPageHTML = nil
     }
 
     private func scheduleInactiveTabSuspension() {

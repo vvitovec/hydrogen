@@ -69,12 +69,11 @@ final class BrowserTab: NSObject, ObservableObject, Identifiable {
         return webView
     }
 
-    func restore(startPageHTML: String) {
-        ensureWebView()
+    func restore() {
         if let url {
             load(URLRequest(url: url))
         } else {
-            reset(startPageHTML: startPageHTML)
+            reset()
         }
     }
 
@@ -116,18 +115,22 @@ final class BrowserTab: NSObject, ObservableObject, Identifiable {
         refreshState()
     }
 
-    func reset(startPageHTML: String = StartPage.html()) {
-        let webView = ensureWebView()
-        webView.stopLoading()
-        webView.loadHTMLString(startPageHTML, baseURL: nil)
+    func reset() {
+        if let webView {
+            dismantle(webView)
+            self.webView = nil
+            webViewID = UUID()
+        }
+        observations.removeAll()
+        isSuspended = false
         applyState(
             title: "New Tab",
             url: nil,
             estimatedProgress: 0,
-            isLoading: webView.isLoading,
-            canGoBack: webView.canGoBack,
-            canGoForward: webView.canGoForward,
-            hasOnlySecureContent: webView.hasOnlySecureContent,
+            isLoading: false,
+            canGoBack: false,
+            canGoForward: false,
+            hasOnlySecureContent: false,
             forceProgress: true
         )
     }

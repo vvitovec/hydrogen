@@ -14,7 +14,6 @@
 		100000000000000000000105 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000005 /* Models.swift */; };
 		100000000000000000000106 /* BrowserPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000006 /* BrowserPersistence.swift */; };
 		100000000000000000000107 /* URLNormalizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000007 /* URLNormalizer.swift */; };
-		100000000000000000000108 /* StartPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000008 /* StartPage.swift */; };
 		100000000000000000000109 /* BrowserWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000009 /* BrowserWebView.swift */; };
 		100000000000000000000110 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000010 /* ShareSheet.swift */; };
 		100000000000000000000111 /* BrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000011 /* BrowserView.swift */; };
@@ -52,7 +51,6 @@
 		100000000000000000000005 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		100000000000000000000006 /* BrowserPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserPersistence.swift; sourceTree = "<group>"; };
 		100000000000000000000007 /* URLNormalizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLNormalizer.swift; sourceTree = "<group>"; };
-		100000000000000000000008 /* StartPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartPage.swift; sourceTree = "<group>"; };
 		100000000000000000000009 /* BrowserWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserWebView.swift; sourceTree = "<group>"; };
 		100000000000000000000010 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		100000000000000000000011 /* BrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserView.swift; sourceTree = "<group>"; };
@@ -122,7 +120,6 @@
 				100000000000000000000005 /* Models.swift */,
 				100000000000000000000006 /* BrowserPersistence.swift */,
 				100000000000000000000007 /* URLNormalizer.swift */,
-				100000000000000000000008 /* StartPage.swift */,
 				100000000000000000000009 /* BrowserWebView.swift */,
 				100000000000000000000010 /* ShareSheet.swift */,
 				100000000000000000000011 /* BrowserView.swift */,
@@ -305,7 +302,6 @@
 				100000000000000000000105 /* Models.swift in Sources */,
 				100000000000000000000106 /* BrowserPersistence.swift in Sources */,
 				100000000000000000000107 /* URLNormalizer.swift in Sources */,
-				100000000000000000000108 /* StartPage.swift in Sources */,
 				100000000000000000000109 /* BrowserWebView.swift in Sources */,
 				100000000000000000000110 /* ShareSheet.swift in Sources */,
 				100000000000000000000111 /* BrowserView.swift in Sources */,

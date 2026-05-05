@@ -14,17 +14,27 @@ struct BrowserView: View {
                 HydrogenTheme.background
                     .ignoresSafeArea()
 
-                if let tab = store.activeTab, let webView = tab.webView {
-                    BrowserWebView(webView: webView)
-                        .ignoresSafeArea()
-                        .id(tab.webViewID)
-                        .onAppear {
-                            syncAddress(from: tab)
-                        }
-                        .onReceive(tab.$url) { url in
-                            guard !isAddressFocused else { return }
-                            addressText = url?.absoluteString ?? ""
-                        }
+                if let tab = store.activeTab {
+                    if let webView = tab.webView {
+                        BrowserWebView(webView: webView)
+                            .ignoresSafeArea()
+                            .id(tab.webViewID)
+                            .onAppear {
+                                syncAddress(from: tab)
+                            }
+                            .onReceive(tab.$url) { url in
+                                guard !isAddressFocused else { return }
+                                addressText = url?.absoluteString ?? ""
+                            }
+                    } else {
+                        NativeStartPageView(
+                            bookmarks: store.bookmarks,
+                            history: store.history,
+                            onOpen: { url in
+                                store.open(url)
+                            }
+                        )
+                    }
                 }
 
                 VStack(spacing: 0) {
@@ -84,6 +94,159 @@ private struct BrowserProgressLine: View {
     }
 }
 
+private struct NativeStartPageView: View {
+    let bookmarks: [BookmarkItem]
+    let history: [HistoryItem]
+    let onOpen: (URL) -> Void
+
+    private var links: (bookmarks: [StartPageLink], recent: [StartPageLink]) {
+        let bookmarkedURLs = Set(bookmarks.map(\.url))
+        let bookmarkLinks = bookmarks.prefix(4).map {
+            StartPageLink(
+                title: $0.title,
+                subtitle: $0.url.host(percentEncoded: false) ?? $0.url.absoluteString,
+                url: $0.url,
+                icon: "star"
+            )
+        }
+        let recentLinks = history
+            .filter { !bookmarkedURLs.contains($0.url) }
+            .prefix(4)
+            .map {
+                StartPageLink(
+                    title: $0.title,
+                    subtitle: $0.url.host(percentEncoded: false) ?? $0.url.absoluteString,
+                    url: $0.url,
+                    icon: "clock"
+                )
+            }
+
+        return (bookmarkLinks, recentLinks)
+    }
+
+    var body: some View {
+        let pageLinks = links
+
+        ScrollView {
+            VStack(alignment: .leading, spacing: 46) {
+                Text("Hydrogen")
+                    .font(.system(size: 36, weight: .bold))
+                    .foregroundStyle(HydrogenTheme.ink)
+
+                VStack(spacing: 30) {
+                    StartPageSection(
+                        title: "Bookmarks",
+                        emptyText: "No bookmarks yet.",
+                        links: pageLinks.bookmarks,
+                        onOpen: onOpen
+                    )
+
+                    StartPageSection(
+                        title: "Recent",
+                        emptyText: "No recent pages yet.",
+                        links: pageLinks.recent,
+                        onOpen: onOpen
+                    )
+                }
+            }
+            .frame(maxWidth: 560, alignment: .leading)
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal, 22)
+            .padding(.top, 62)
+            .padding(.bottom, 118)
+        }
+        .background(HydrogenTheme.background)
+    }
+}
+
+private struct StartPageSection: View {
+    let title: String
+    let emptyText: String
+    let links: [StartPageLink]
+    let onOpen: (URL) -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(title)
+                .font(.system(size: 12, weight: .semibold))
+                .textCase(.uppercase)
+                .foregroundStyle(HydrogenTheme.faintInk)
+
+            if links.isEmpty {
+                Text(emptyText)
+                    .font(.system(size: 14))
+                    .foregroundStyle(HydrogenTheme.mutedInk)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.vertical, 8)
+            } else {
+                VStack(spacing: 0) {
+                    ForEach(links) { link in
+                        Button {
+                            onOpen(link.url)
+                        } label: {
+                            StartPageRow(link: link)
+                        }
+                        .buttonStyle(.plain)
+
+                        if link.id != links.last?.id {
+                            Divider()
+                                .overlay(HydrogenTheme.hairline.opacity(0.45))
+                        }
+                    }
+                }
+                .overlay(alignment: .top) {
+                    Divider()
+                        .overlay(HydrogenTheme.hairline.opacity(0.45))
+                }
+                .overlay(alignment: .bottom) {
+                    Divider()
+                        .overlay(HydrogenTheme.hairline.opacity(0.45))
+                }
+            }
+        }
+    }
+}
+
+private struct StartPageRow: View {
+    let link: StartPageLink
+
+    var body: some View {
+        HStack(spacing: 12) {
+            Image(systemName: link.icon)
+                .font(.system(size: 13, weight: .semibold))
+                .foregroundStyle(HydrogenTheme.helium)
+                .frame(width: 28, height: 28)
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(link.title)
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundStyle(HydrogenTheme.ink)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
+
+                Text(link.subtitle)
+                    .font(.system(size: 12))
+                    .foregroundStyle(HydrogenTheme.mutedInk)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .frame(minHeight: 46)
+        .padding(.vertical, 10)
+        .contentShape(Rectangle())
+    }
+}
+
+private struct StartPageLink: Identifiable {
+    let title: String
+    let subtitle: String
+    let url: URL
+    let icon: String
+
+    var id: String { url.absoluteString }
+}
+
 private struct BrowserCommandBar: View {
     @EnvironmentObject private var store: BrowserStore
     @ObservedObject var tab: BrowserTab
@@ -138,10 +301,6 @@ private struct BrowserCommandBar: View {
                 }
 
                 tabsButton
-
-                CommandIconButton(systemName: "sidebar.left", title: "Library") {
-                    isShowingLibrary = true
-                }
 
                 moreMenu
             }
@@ -222,6 +381,26 @@ private struct BrowserCommandBar: View {
     private var moreMenu: some View {
         Menu {
             Button {
+                openLibrary(.bookmarks)
+            } label: {
+                Label("Bookmarks", systemImage: "star")
+            }
+
+            Button {
+                openLibrary(.history)
+            } label: {
+                Label("History", systemImage: "clock")
+            }
+
+            Button {
+                openLibrary(.settings)
+            } label: {
+                Label("Settings", systemImage: "gearshape")
+            }
+
+            Divider()
+
+            Button {
                 store.newTab(isPrivate: tab.isPrivate)
             } label: {
                 Label("New Tab", systemImage: "plus")
@@ -256,6 +435,11 @@ private struct BrowserCommandBar: View {
         }
         .buttonStyle(.plain)
         .accessibilityLabel("More")
+    }
+
+    private func openLibrary(_ mode: LibraryMode) {
+        store.libraryMode = mode
+        isShowingLibrary = true
     }
 
     private var tabCountText: String {
