@@ -16,14 +16,22 @@ final class BrowserStore: ObservableObject {
     let adBlocker = AdBlocker()
     private let persistence: BrowserPersistence
     private let snapshotWriter: DebouncedSnapshotWriter
+    private let inactiveTabSuspensionDelay: TimeInterval
+    private var cachedStartPageHTML: String?
+    private var tabSuspensionTask: Task<Void, Never>?
 
     var activeTab: BrowserTab? {
         tabs.first { $0.id == activeTabID }
     }
 
-    init(persistence: BrowserPersistence = BrowserPersistence(), saveDelay: TimeInterval = 0.35) {
+    init(
+        persistence: BrowserPersistence = BrowserPersistence(),
+        saveDelay: TimeInterval = 0.35,
+        inactiveTabSuspensionDelay: TimeInterval = 30
+    ) {
         self.persistence = persistence
         self.snapshotWriter = DebouncedSnapshotWriter(persistence: persistence, delay: saveDelay)
+        self.inactiveTabSuspensionDelay = inactiveTabSuspensionDelay
 
         let snapshot = persistence.load()
         bookmarks = snapshot.bookmarks
@@ -34,18 +42,24 @@ final class BrowserStore: ObservableObject {
         newTab(isPrivate: false)
     }
 
+    deinit {
+        tabSuspensionTask?.cancel()
+    }
+
     func newTab(isPrivate: Bool, request: URLRequest? = nil) {
-        let tab = BrowserTab(isPrivate: isPrivate)
+        let tab = BrowserTab(isPrivate: isPrivate) { [weak self] webView in
+            self?.adBlocker.apply(to: webView)
+        }
         configure(tab)
         tabs.append(tab)
         activeTabID = tab.id
-        adBlocker.apply(to: tab.webView)
 
         if let request {
             tab.load(request)
         } else {
             tab.reset(startPageHTML: startPageHTML())
         }
+        scheduleInactiveTabSuspension()
     }
 
     func closeTab(_ tab: BrowserTab) {
@@ -61,11 +75,16 @@ final class BrowserStore: ObservableObject {
         tabs.removeAll { $0.id == tab.id }
         if wasActive {
             activeTabID = tabs.last?.id
+            activeTab?.restore(startPageHTML: startPageHTML())
         }
+        scheduleInactiveTabSuspension()
     }
 
     func selectTab(_ tab: BrowserTab) {
+        guard tabs.contains(where: { $0.id == tab.id }) else { return }
+        tab.restore(startPageHTML: startPageHTML())
         activeTabID = tab.id
+        scheduleInactiveTabSuspension()
     }
 
     func loadInput(_ input: String) {
@@ -83,6 +102,7 @@ final class BrowserStore: ObservableObject {
             newTab(isPrivate: isPrivate ?? activeTab?.isPrivate ?? false, request: request)
         } else {
             activeTab?.load(request)
+            scheduleInactiveTabSuspension()
         }
     }
 
@@ -98,6 +118,7 @@ final class BrowserStore: ObservableObject {
         } else {
             bookmarks.insert(BookmarkItem(title: tab.displayTitle, url: url), at: 0)
         }
+        invalidateStartPageHTML()
         save()
     }
 
@@ -108,16 +129,19 @@ final class BrowserStore: ObservableObject {
 
     func deleteBookmarks(at offsets: IndexSet) {
         bookmarks.remove(atOffsets: offsets)
+        invalidateStartPageHTML()
         save()
     }
 
     func deleteHistory(at offsets: IndexSet) {
         history.remove(atOffsets: offsets)
+        invalidateStartPageHTML()
         save()
     }
 
     func clearHistory() {
         history.removeAll()
+        invalidateStartPageHTML()
         save()
     }
 
@@ -125,8 +149,8 @@ final class BrowserStore: ObservableObject {
         settings.isAdBlockEnabled = isEnabled
         adBlocker.isEnabled = isEnabled
         adBlocker.prepare()
-        tabs.forEach { tab in
-            adBlocker.apply(to: tab.webView)
+        loadedWebViews.forEach { webView in
+            adBlocker.apply(to: webView)
         }
         activeTab?.reload()
         save()
@@ -139,6 +163,15 @@ final class BrowserStore: ObservableObject {
 
     func flushPendingSave() {
         snapshotWriter.flush()
+    }
+
+    func handleMemoryPressure() {
+        suspendInactiveTabs()
+    }
+
+    func prepareForBackground() {
+        flushPendingSave()
+        suspendInactiveTabs()
     }
 
     private func configure(_ tab: BrowserTab) {
@@ -168,6 +201,7 @@ final class BrowserStore: ObservableObject {
         if history.count > Self.historyLimit {
             history.removeLast(history.count - Self.historyLimit)
         }
+        invalidateStartPageHTML()
         save()
     }
 
@@ -180,7 +214,49 @@ final class BrowserStore: ObservableObject {
     }
 
     private func startPageHTML() -> String {
-        StartPage.html(bookmarks: bookmarks, history: history)
+        if let cachedStartPageHTML {
+            return cachedStartPageHTML
+        }
+
+        let html = StartPage.html(bookmarks: bookmarks, history: history)
+        cachedStartPageHTML = html
+        return html
+    }
+
+    private var loadedWebViews: [WKWebView] {
+        tabs.compactMap(\.webView)
+    }
+
+    private func invalidateStartPageHTML() {
+        cachedStartPageHTML = nil
+    }
+
+    private func scheduleInactiveTabSuspension() {
+        tabSuspensionTask?.cancel()
+        let delay = UInt64(max(0, inactiveTabSuspensionDelay) * 1_000_000_000)
+        tabSuspensionTask = Task { [weak self, delay] in
+            if delay > 0 {
+                do {
+                    try await Task.sleep(nanoseconds: delay)
+                } catch {
+                    return
+                }
+            }
+
+            guard !Task.isCancelled else { return }
+            await MainActor.run {
+                guard let self, !Task.isCancelled else { return }
+                self.suspendInactiveTabs()
+            }
+        }
+    }
+
+    private func suspendInactiveTabs() {
+        guard let activeTabID else { return }
+        tabs.forEach { tab in
+            guard tab.id != activeTabID else { return }
+            tab.suspend()
+        }
     }
 }
 

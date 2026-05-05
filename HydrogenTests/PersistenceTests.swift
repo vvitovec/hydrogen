@@ -85,4 +85,41 @@ final class PersistenceTests: XCTestCase {
         XCTAssertNil(store.activeTab?.url)
         try? FileManager.default.removeItem(at: url.deletingLastPathComponent())
     }
+
+    @MainActor
+    func testMemoryPressureSuspendsInactiveTabsAndRestoresOnSelection() throws {
+        let url = FileManager.default.temporaryDirectory
+            .appending(path: UUID().uuidString)
+            .appending(path: "BrowserSnapshot.json")
+        let persistence = BrowserPersistence(fileURL: url)
+        let store = BrowserStore(persistence: persistence, saveDelay: 60, inactiveTabSuspensionDelay: 60)
+
+        guard let firstTab = store.activeTab else {
+            XCTFail("Expected an initial tab")
+            return
+        }
+
+        store.newTab(isPrivate: false)
+        guard let secondTab = store.activeTab else {
+            XCTFail("Expected a second tab")
+            return
+        }
+
+        XCTAssertNotNil(firstTab.webView)
+        XCTAssertNotNil(secondTab.webView)
+
+        store.handleMemoryPressure()
+
+        XCTAssertNil(firstTab.webView)
+        XCTAssertTrue(firstTab.isSuspended)
+        XCTAssertNotNil(secondTab.webView)
+        XCTAssertFalse(secondTab.isSuspended)
+
+        store.selectTab(firstTab)
+
+        XCTAssertEqual(store.activeTabID, firstTab.id)
+        XCTAssertNotNil(firstTab.webView)
+        XCTAssertFalse(firstTab.isSuspended)
+        try? FileManager.default.removeItem(at: url.deletingLastPathComponent())
+    }
 }

@@ -14,10 +14,10 @@ struct BrowserView: View {
                 HydrogenTheme.background
                     .ignoresSafeArea()
 
-                if let tab = store.activeTab {
-                    BrowserWebView(tab: tab)
+                if let tab = store.activeTab, let webView = tab.webView {
+                    BrowserWebView(webView: webView)
                         .ignoresSafeArea()
-                        .id(tab.id)
+                        .id(tab.webViewID)
                         .onAppear {
                             syncAddress(from: tab)
                         }
@@ -105,7 +105,7 @@ private struct BrowserCommandBar: View {
                     title: "Back",
                     isEnabled: tab.canGoBack
                 ) {
-                    tab.webView.goBack()
+                    tab.goBack()
                 }
 
                 CommandIconButton(
@@ -113,7 +113,7 @@ private struct BrowserCommandBar: View {
                     title: "Forward",
                     isEnabled: tab.canGoForward
                 ) {
-                    tab.webView.goForward()
+                    tab.goForward()
                 }
             }
 
@@ -147,12 +147,12 @@ private struct BrowserCommandBar: View {
             }
         }
         .padding(6)
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .background(HydrogenTheme.elevatedSurface.opacity(0.98), in: RoundedRectangle(cornerRadius: 16, style: .continuous))
         .overlay {
             RoundedRectangle(cornerRadius: 16, style: .continuous)
                 .stroke(HydrogenTheme.hairline.opacity(0.7), lineWidth: 1)
         }
-        .shadow(color: HydrogenTheme.ink.opacity(0.12), radius: 16, x: 0, y: 8)
+        .shadow(color: HydrogenTheme.ink.opacity(0.08), radius: 8, x: 0, y: 4)
         .animation(.snappy(duration: 0.18), value: isFocused)
     }
 

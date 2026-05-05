@@ -59,7 +59,7 @@ struct TabOverviewView: View {
                 .padding(.horizontal, 14)
                 .padding(.top, 10)
                 .padding(.bottom, 10)
-                .background(.ultraThinMaterial)
+                .background(HydrogenTheme.background.opacity(0.98))
             }
         }
     }
@@ -132,13 +132,27 @@ private struct TabOverviewRow: View {
     private var tabGlyph: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 8, style: .continuous)
-                .fill(tab.isPrivate ? HydrogenTheme.privateTint.opacity(0.14) : HydrogenTheme.helium.opacity(0.13))
+                .fill(tabGlyphTint.opacity(0.13))
 
-            Image(systemName: tab.isPrivate ? "eye.slash" : "globe")
+            Image(systemName: tabGlyphName)
                 .font(.system(size: 16, weight: .semibold))
-                .foregroundStyle(tab.isPrivate ? HydrogenTheme.privateTint : HydrogenTheme.helium)
+                .foregroundStyle(tabGlyphTint)
         }
         .frame(width: 40, height: 40)
+    }
+
+    private var tabGlyphName: String {
+        if tab.isSuspended {
+            return "pause.circle"
+        }
+        return tab.isPrivate ? "eye.slash" : "globe"
+    }
+
+    private var tabGlyphTint: Color {
+        if tab.isSuspended {
+            return HydrogenTheme.faintInk
+        }
+        return tab.isPrivate ? HydrogenTheme.privateTint : HydrogenTheme.helium
     }
 }
 

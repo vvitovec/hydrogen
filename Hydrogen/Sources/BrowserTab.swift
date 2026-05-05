@@ -3,10 +3,14 @@ import WebKit
 
 @MainActor
 final class BrowserTab: NSObject, ObservableObject, Identifiable {
+    private static let progressPublishStep = 0.025
+
     let id = UUID()
     let isPrivate: Bool
-    let webView: WKWebView
 
+    @Published private(set) var webView: WKWebView?
+    @Published private(set) var webViewID = UUID()
+    @Published private(set) var isSuspended = false
     @Published var title: String = "New Tab"
     @Published var url: URL?
     @Published var estimatedProgress: Double = 0
@@ -18,6 +22,7 @@ final class BrowserTab: NSObject, ObservableObject, Identifiable {
     var onVisited: ((String, URL) -> Void)?
     var onOpenNewTab: ((URLRequest) -> Void)?
     var onOpenExternal: ((URL) -> Void)?
+    var onWebViewCreated: ((WKWebView) -> Void)?
 
     private var observations: [NSKeyValueObservation] = []
 
@@ -29,8 +34,17 @@ final class BrowserTab: NSObject, ObservableObject, Identifiable {
         return url?.host(percentEncoded: false) ?? "New Tab"
     }
 
-    init(isPrivate: Bool) {
+    init(isPrivate: Bool, onWebViewCreated: ((WKWebView) -> Void)? = nil) {
         self.isPrivate = isPrivate
+        self.onWebViewCreated = onWebViewCreated
+        super.init()
+    }
+
+    @discardableResult
+    func ensureWebView() -> WKWebView {
+        if let webView {
+            return webView
+        }
 
         let configuration = WKWebViewConfiguration()
         configuration.websiteDataStore = isPrivate ? .nonPersistent() : .default()
@@ -45,20 +59,38 @@ final class BrowserTab: NSObject, ObservableObject, Identifiable {
             webView.isInspectable = true
         }
         #endif
+
         self.webView = webView
-        super.init()
-        webView.navigationDelegate = self
-        webView.uiDelegate = self
-        observeWebViewState()
-        refreshState()
+        webViewID = UUID()
+        isSuspended = false
+        configure(webView)
+        onWebViewCreated?(webView)
+        refreshState(forceProgress: true)
+        return webView
+    }
+
+    func restore(startPageHTML: String) {
+        ensureWebView()
+        if let url {
+            load(URLRequest(url: url))
+        } else {
+            reset(startPageHTML: startPageHTML)
+        }
     }
 
     func load(_ request: URLRequest) {
-        webView.load(request)
-        refreshState()
+        ensureWebView().load(request)
+        refreshState(forceProgress: true)
     }
 
     func reload() {
+        guard let webView else {
+            if let url {
+                load(URLRequest(url: url))
+            }
+            return
+        }
+
         if webView.url == nil {
             return
         }
@@ -67,14 +99,25 @@ final class BrowserTab: NSObject, ObservableObject, Identifiable {
 
     func stopOrReload() {
         if isLoading {
-            webView.stopLoading()
+            webView?.stopLoading()
         } else {
             reload()
         }
+        refreshState(forceProgress: true)
+    }
+
+    func goBack() {
+        webView?.goBack()
+        refreshState()
+    }
+
+    func goForward() {
+        webView?.goForward()
         refreshState()
     }
 
     func reset(startPageHTML: String = StartPage.html()) {
+        let webView = ensureWebView()
         webView.stopLoading()
         webView.loadHTMLString(startPageHTML, baseURL: nil)
         applyState(
@@ -84,11 +127,52 @@ final class BrowserTab: NSObject, ObservableObject, Identifiable {
             isLoading: webView.isLoading,
             canGoBack: webView.canGoBack,
             canGoForward: webView.canGoForward,
-            hasOnlySecureContent: webView.hasOnlySecureContent
+            hasOnlySecureContent: webView.hasOnlySecureContent,
+            forceProgress: true
+        )
+    }
+
+    func suspend() {
+        guard let webView else {
+            isSuspended = true
+            return
+        }
+
+        let suspendedTitle = title
+        let suspendedURL = url
+        let suspendedSecureContent = hasOnlySecureContent
+        dismantle(webView)
+        self.webView = nil
+        webViewID = UUID()
+        isSuspended = true
+        applyState(
+            title: suspendedTitle,
+            url: suspendedURL,
+            estimatedProgress: suspendedURL == nil ? 0 : 1,
+            isLoading: false,
+            canGoBack: false,
+            canGoForward: false,
+            hasOnlySecureContent: suspendedSecureContent,
+            forceProgress: true
         )
     }
 
     func tearDown() {
+        if let webView {
+            dismantle(webView)
+            self.webView = nil
+            webViewID = UUID()
+        }
+        isSuspended = false
+    }
+
+    private func configure(_ webView: WKWebView) {
+        webView.navigationDelegate = self
+        webView.uiDelegate = self
+        observe(webView)
+    }
+
+    private func dismantle(_ webView: WKWebView) {
         observations.removeAll()
         webView.stopLoading()
         webView.navigationDelegate = nil
@@ -97,7 +181,8 @@ final class BrowserTab: NSObject, ObservableObject, Identifiable {
         webView.loadHTMLString("", baseURL: nil)
     }
 
-    private func refreshState() {
+    private func refreshState(forceProgress: Bool = false) {
+        guard let webView else { return }
         applyState(
             title: webView.title ?? title,
             url: webView.url.flatMap { URLNormalizer.isInternalStartURL($0) ? nil : $0 },
@@ -105,11 +190,12 @@ final class BrowserTab: NSObject, ObservableObject, Identifiable {
             isLoading: webView.isLoading,
             canGoBack: webView.canGoBack,
             canGoForward: webView.canGoForward,
-            hasOnlySecureContent: webView.hasOnlySecureContent
+            hasOnlySecureContent: webView.hasOnlySecureContent,
+            forceProgress: forceProgress
         )
     }
 
-    private func observeWebViewState() {
+    private func observe(_ webView: WKWebView) {
         observations = [
             webView.observe(\.title, options: [.new]) { [weak self] _, _ in
                 Task { @MainActor in self?.refreshState() }
@@ -121,7 +207,7 @@ final class BrowserTab: NSObject, ObservableObject, Identifiable {
                 Task { @MainActor in self?.refreshState() }
             },
             webView.observe(\.isLoading, options: [.new]) { [weak self] _, _ in
-                Task { @MainActor in self?.refreshState() }
+                Task { @MainActor in self?.refreshState(forceProgress: true) }
             },
             webView.observe(\.canGoBack, options: [.new]) { [weak self] _, _ in
                 Task { @MainActor in self?.refreshState() }
@@ -142,7 +228,8 @@ final class BrowserTab: NSObject, ObservableObject, Identifiable {
         isLoading: Bool,
         canGoBack: Bool,
         canGoForward: Bool,
-        hasOnlySecureContent: Bool
+        hasOnlySecureContent: Bool,
+        forceProgress: Bool = false
     ) {
         if self.title != title {
             self.title = title
@@ -150,7 +237,7 @@ final class BrowserTab: NSObject, ObservableObject, Identifiable {
         if self.url != url {
             self.url = url
         }
-        if self.estimatedProgress != estimatedProgress {
+        if shouldPublishProgress(estimatedProgress, force: forceProgress) {
             self.estimatedProgress = estimatedProgress
         }
         if self.isLoading != isLoading {
@@ -166,11 +253,15 @@ final class BrowserTab: NSObject, ObservableObject, Identifiable {
             self.hasOnlySecureContent = hasOnlySecureContent
         }
     }
+
+    private func shouldPublishProgress(_ progress: Double, force: Bool) -> Bool {
+        force || progress == 0 || progress >= 1 || abs(estimatedProgress - progress) >= Self.progressPublishStep
+    }
 }
 
 extension BrowserTab: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        refreshState()
+        refreshState(forceProgress: true)
     }
 
     func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
@@ -178,18 +269,18 @@ extension BrowserTab: WKNavigationDelegate {
     }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        refreshState()
+        refreshState(forceProgress: true)
         if let url = url {
             onVisited?(displayTitle, url)
         }
     }
 
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        refreshState()
+        refreshState(forceProgress: true)
     }
 
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        refreshState()
+        refreshState(forceProgress: true)
     }
 
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction) async -> WKNavigationActionPolicy {
