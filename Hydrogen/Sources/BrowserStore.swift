@@ -4,6 +4,8 @@ import WebKit
 
 @MainActor
 final class BrowserStore: ObservableObject {
+    private static let historyLimit = 500
+
     @Published private(set) var tabs: [BrowserTab] = []
     @Published var activeTabID: UUID?
     @Published var bookmarks: [BookmarkItem] = []
@@ -12,18 +14,23 @@ final class BrowserStore: ObservableObject {
     @Published var libraryMode: LibraryMode = .bookmarks
 
     let adBlocker = AdBlocker()
-    private let persistence = BrowserPersistence()
+    private let persistence: BrowserPersistence
+    private let snapshotWriter: DebouncedSnapshotWriter
 
     var activeTab: BrowserTab? {
         tabs.first { $0.id == activeTabID }
     }
 
-    init() {
+    init(persistence: BrowserPersistence = BrowserPersistence(), saveDelay: TimeInterval = 0.35) {
+        self.persistence = persistence
+        self.snapshotWriter = DebouncedSnapshotWriter(persistence: persistence, delay: saveDelay)
+
         let snapshot = persistence.load()
         bookmarks = snapshot.bookmarks
         history = snapshot.history
         settings = snapshot.settings
         adBlocker.isEnabled = snapshot.settings.isAdBlockEnabled
+        adBlocker.prepare()
         newTab(isPrivate: false)
     }
 
@@ -36,12 +43,15 @@ final class BrowserStore: ObservableObject {
 
         if let request {
             tab.load(request)
+        } else {
+            tab.reset(startPageHTML: startPageHTML())
         }
     }
 
     func closeTab(_ tab: BrowserTab) {
         guard tabs.count > 1 else {
-            tab.reset()
+            tab.reset(startPageHTML: startPageHTML())
+            activeTabID = tab.id
             return
         }
 
@@ -57,7 +67,7 @@ final class BrowserStore: ObservableObject {
     }
 
     func loadInput(_ input: String) {
-        let request = URLRequest(url: URLNormalizer.url(for: input))
+        let request = URLRequest(url: URLNormalizer.url(for: input, searchEngine: settings.searchEngine))
         if let tab = activeTab {
             tab.load(request)
         } else {
@@ -112,16 +122,21 @@ final class BrowserStore: ObservableObject {
     func setAdBlockEnabled(_ isEnabled: Bool) {
         settings.isAdBlockEnabled = isEnabled
         adBlocker.isEnabled = isEnabled
+        adBlocker.prepare()
         tabs.forEach { tab in
             adBlocker.apply(to: tab.webView)
-            tab.reload()
         }
+        activeTab?.reload()
         save()
     }
 
     func shareItems() -> [Any] {
         guard let url = activeTab?.url else { return [] }
         return [url]
+    }
+
+    func flushPendingSave() {
+        snapshotWriter.flush()
     }
 
     private func configure(_ tab: BrowserTab) {
@@ -140,18 +155,30 @@ final class BrowserStore: ObservableObject {
         }
     }
 
-    private func recordVisit(title: String, url: URL) {
+    func recordVisit(title: String, url: URL) {
         guard URLNormalizer.isWebURL(url) else { return }
+        if let first = history.first, first.url == url, first.title == title {
+            return
+        }
+
         history.removeAll { $0.url == url }
         history.insert(HistoryItem(title: title, url: url, visitedAt: .now), at: 0)
-        if history.count > 500 {
-            history.removeLast(history.count - 500)
+        if history.count > Self.historyLimit {
+            history.removeLast(history.count - Self.historyLimit)
         }
         save()
     }
 
     private func save() {
-        persistence.save(BrowserSnapshot(bookmarks: bookmarks, history: history, settings: settings))
+        snapshotWriter.schedule(snapshot())
+    }
+
+    private func snapshot() -> BrowserSnapshot {
+        BrowserSnapshot(bookmarks: bookmarks, history: history, settings: settings)
+    }
+
+    private func startPageHTML() -> String {
+        StartPage.html(bookmarks: bookmarks, history: history)
     }
 }
 

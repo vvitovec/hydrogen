@@ -9,6 +9,11 @@ final class AdBlocker {
     private var isCompiling = false
     private var pendingWebViews: [WeakWebView] = []
 
+    func prepare() {
+        guard isEnabled else { return }
+        compileIfNeeded()
+    }
+
     func apply(to webView: WKWebView) {
         webView.configuration.userContentController.removeAllContentRuleLists()
         guard isEnabled else { return }
@@ -23,6 +28,7 @@ final class AdBlocker {
     }
 
     private func compileIfNeeded() {
+        guard compiledRuleList == nil else { return }
         guard !isCompiling else { return }
         isCompiling = true
 

@@ -5,6 +5,6 @@ final class HydrogenUITests: XCTestCase {
         let app = XCUIApplication()
         app.launch()
 
-        XCTAssertTrue(app.textFields["Search or website"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.textFields["AddressField"].waitForExistence(timeout: 5))
     }
 }

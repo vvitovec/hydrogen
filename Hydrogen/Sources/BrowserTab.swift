@@ -71,9 +71,9 @@ final class BrowserTab: NSObject, ObservableObject, Identifiable {
         refreshState()
     }
 
-    func reset() {
+    func reset(startPageHTML: String = StartPage.html()) {
         webView.stopLoading()
-        webView.loadHTMLString(StartPage.html, baseURL: nil)
+        webView.loadHTMLString(startPageHTML, baseURL: nil)
         title = "New Tab"
         url = nil
         estimatedProgress = 0

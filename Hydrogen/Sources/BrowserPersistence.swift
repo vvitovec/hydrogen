@@ -36,6 +36,53 @@ final class BrowserPersistence {
     }
 }
 
+@MainActor
+final class DebouncedSnapshotWriter {
+    private let persistence: BrowserPersistence
+    private let delayNanoseconds: UInt64
+    private var pendingTask: Task<Void, Never>?
+    private var latestSnapshot: BrowserSnapshot?
+
+    init(persistence: BrowserPersistence, delay: TimeInterval = 0.35) {
+        self.persistence = persistence
+        self.delayNanoseconds = UInt64(max(0, delay) * 1_000_000_000)
+    }
+
+    func schedule(_ snapshot: BrowserSnapshot) {
+        latestSnapshot = snapshot
+        pendingTask?.cancel()
+
+        pendingTask = Task { @MainActor [weak self, snapshot, delayNanoseconds] in
+            if delayNanoseconds > 0 {
+                do {
+                    try await Task.sleep(nanoseconds: delayNanoseconds)
+                } catch {
+                    return
+                }
+            }
+
+            guard !Task.isCancelled, let self else { return }
+            self.persistence.save(snapshot)
+            if self.latestSnapshot == snapshot {
+                self.latestSnapshot = nil
+            }
+        }
+    }
+
+    func flush() {
+        pendingTask?.cancel()
+        pendingTask = nil
+
+        guard let latestSnapshot else { return }
+        persistence.save(latestSnapshot)
+        self.latestSnapshot = nil
+    }
+
+    deinit {
+        pendingTask?.cancel()
+    }
+}
+
 extension JSONEncoder {
     static var hydrogen: JSONEncoder {
         let encoder = JSONEncoder()
