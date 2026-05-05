@@ -21,8 +21,8 @@ enum StartPage {
             margin: 0;
             min-height: 100%;
             font: -apple-system-body;
-            background: #f4f1e9;
-            color: #1d1f19;
+            background: #f5f8fc;
+            color: #101826;
             -webkit-font-smoothing: antialiased;
           }
           main {
@@ -30,85 +30,58 @@ enum StartPage {
             display: flex;
             align-items: flex-start;
             justify-content: center;
-            padding: 58px 22px 118px;
+            padding: 62px 22px 118px;
             box-sizing: border-box;
           }
           section.shell {
             width: min(100%, 560px);
           }
-          .mark {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 22px;
-            color: #68734a;
-            font-size: 13px;
+          h1 {
+            font-size: 36px;
+            line-height: 1;
+            font-weight: 720;
+            margin: 0;
+            letter-spacing: 0;
+          }
+          .quick {
+            display: grid;
+            gap: 30px;
+            margin-top: 46px;
+          }
+          h2 {
+            margin: 0 0 10px;
+            font-size: 12px;
+            line-height: 1;
+            color: #728197;
             font-weight: 650;
             letter-spacing: .04em;
             text-transform: uppercase;
           }
-          .dot {
-            width: 9px;
-            height: 9px;
-            border-radius: 999px;
-            background: #8aa158;
-          }
-          h1 {
-            font-size: 38px;
-            line-height: 1;
-            font-weight: 720;
-            margin: 0 0 12px;
-            letter-spacing: 0;
-          }
-          p {
-            margin: 0;
-            color: #676b62;
-          }
-          .lede {
-            font-size: 16px;
-            line-height: 1.45;
-            max-width: 34ch;
-          }
-          .quick {
-            display: grid;
-            gap: 14px;
-            margin-top: 36px;
-          }
-          h2 {
-            margin: 0 0 8px;
-            font-size: 12px;
-            line-height: 1;
-            color: #757966;
-            font-weight: 650;
-            letter-spacing: .05em;
-            text-transform: uppercase;
-          }
           .links {
             display: grid;
-            gap: 8px;
+            gap: 0;
           }
           a {
             display: grid;
             grid-template-columns: 28px minmax(0, 1fr);
-            gap: 10px;
+            gap: 12px;
             align-items: center;
-            min-height: 44px;
-            padding: 8px 10px 8px 8px;
+            min-height: 46px;
+            padding: 10px 0;
             color: inherit;
             text-decoration: none;
-            background: rgba(255, 253, 245, .78);
-            border: 1px solid rgba(168, 168, 146, .5);
-            border-radius: 8px;
+            border-top: 1px solid rgba(180, 197, 218, .45);
             box-sizing: border-box;
+          }
+          a:last-child {
+            border-bottom: 1px solid rgba(180, 197, 218, .45);
           }
           .glyph {
             display: grid;
             place-items: center;
             width: 28px;
             height: 28px;
-            border-radius: 7px;
-            background: #ebe8dc;
-            color: #68734a;
+            color: #2f6fbd;
             font-size: 13px;
           }
           strong, span {
@@ -128,25 +101,24 @@ enum StartPage {
           }
           span {
             margin-top: 2px;
-            color: #737766;
+            color: #6d7b8e;
             font-size: 12px;
           }
           .quiet {
-            padding: 10px 0;
-            color: #737766;
+            padding: 8px 0;
+            color: #6d7b8e;
             font-size: 14px;
+            margin: 0;
           }
         </style>
       </head>
       <body>
         <main>
           <section class="shell">
-            <div class="mark"><i class="dot"></i> Helium mode</div>
             <h1>Hydrogen</h1>
-            <p class="lede">A quiet browser shell for getting to the page fast. Search or enter a website in the command bar.</p>
             <div class="quick">
-              \(section(title: "Bookmarks", links: bookmarkLinks, emptyText: "Bookmark a page and it will stay close."))
-              \(section(title: "Recent", links: recentLinks, emptyText: "Visited pages appear here after regular browsing."))
+              \(section(title: "Bookmarks", links: bookmarkLinks, emptyText: "No bookmarks yet."))
+              \(section(title: "Recent", links: recentLinks, emptyText: "No recent pages yet."))
             </div>
           </section>
         </main>
