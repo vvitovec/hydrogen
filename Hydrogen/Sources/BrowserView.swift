@@ -145,6 +145,7 @@ private struct NativeStartPageView: View {
                         title: "Recent",
                         emptyText: "No recent pages yet.",
                         links: pageLinks.recent,
+                        density: .compact,
                         onOpen: onOpen
                     )
                 }
@@ -163,6 +164,7 @@ private struct StartPageSection: View {
     let title: String
     let emptyText: String
     let links: [StartPageLink]
+    var density: StartPageRowDensity = .regular
     let onOpen: (URL) -> Void
 
     var body: some View {
@@ -184,7 +186,7 @@ private struct StartPageSection: View {
                         Button {
                             onOpen(link.url)
                         } label: {
-                            StartPageRow(link: link)
+                            StartPageRow(link: link, density: density)
                         }
                         .buttonStyle(.plain)
 
@@ -207,34 +209,72 @@ private struct StartPageSection: View {
     }
 }
 
+private enum StartPageRowDensity {
+    case regular
+    case compact
+}
+
 private struct StartPageRow: View {
     let link: StartPageLink
+    let density: StartPageRowDensity
 
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: spacing) {
             Image(systemName: link.icon)
-                .font(.system(size: 13, weight: .semibold))
+                .font(.system(size: iconSize, weight: .semibold))
                 .foregroundStyle(HydrogenTheme.helium)
-                .frame(width: 28, height: 28)
+                .frame(width: iconFrame, height: iconFrame)
 
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: titleSpacing) {
                 Text(link.title)
-                    .font(.system(size: 15, weight: .semibold))
+                    .font(.system(size: titleSize, weight: .semibold))
                     .foregroundStyle(HydrogenTheme.ink)
                     .lineLimit(1)
                     .truncationMode(.tail)
 
                 Text(link.subtitle)
-                    .font(.system(size: 12))
+                    .font(.system(size: subtitleSize))
                     .foregroundStyle(HydrogenTheme.mutedInk)
                     .lineLimit(1)
                     .truncationMode(.tail)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .frame(minHeight: 46)
-        .padding(.vertical, 10)
+        .frame(minHeight: minHeight)
+        .padding(.vertical, verticalPadding)
         .contentShape(Rectangle())
+    }
+
+    private var spacing: CGFloat {
+        density == .compact ? 9 : 12
+    }
+
+    private var iconSize: CGFloat {
+        density == .compact ? 11 : 13
+    }
+
+    private var iconFrame: CGFloat {
+        density == .compact ? 22 : 28
+    }
+
+    private var titleSpacing: CGFloat {
+        density == .compact ? 1 : 2
+    }
+
+    private var titleSize: CGFloat {
+        density == .compact ? 13 : 15
+    }
+
+    private var subtitleSize: CGFloat {
+        density == .compact ? 11 : 12
+    }
+
+    private var minHeight: CGFloat {
+        density == .compact ? 34 : 46
+    }
+
+    private var verticalPadding: CGFloat {
+        density == .compact ? 5 : 10
     }
 }
 
