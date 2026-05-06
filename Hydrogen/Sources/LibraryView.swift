@@ -126,6 +126,13 @@ struct LibraryView: View {
                 )
             )
 
+            SettingsAppearanceRow(
+                selection: Binding(
+                    get: { store.settings.appearance },
+                    set: { store.setAppearance($0) }
+                )
+            )
+
             SettingsInfoRow(title: "Search", value: "DuckDuckGo", icon: "magnifyingglass")
             SettingsInfoRow(title: "Private Tabs", value: "Memory only", icon: "eye.slash")
             SettingsInfoRow(title: "History Limit", value: "500 visits", icon: "clock.arrow.circlepath")
@@ -308,6 +315,53 @@ private struct SettingsInfoRow: View {
                 .foregroundStyle(HydrogenTheme.mutedInk)
                 .lineLimit(1)
                 .truncationMode(.middle)
+        }
+        .padding(12)
+        .background(HydrogenTheme.elevatedSurface, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+        .overlay {
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .stroke(HydrogenTheme.hairline.opacity(0.55), lineWidth: 1)
+        }
+    }
+}
+
+private struct SettingsAppearanceRow: View {
+    @Binding var selection: AppAppearance
+
+    var body: some View {
+        HStack(spacing: 11) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    .fill(HydrogenTheme.helium.opacity(0.13))
+
+                Image(systemName: "circle.lefthalf.filled")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundStyle(HydrogenTheme.helium)
+            }
+            .frame(width: 40, height: 40)
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Appearance")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundStyle(HydrogenTheme.ink)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
+                Text("Use system, light, or dark mode.")
+                    .font(.system(size: 12))
+                    .foregroundStyle(HydrogenTheme.mutedInk)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+
+            Spacer(minLength: 8)
+
+            Picker("Appearance", selection: $selection) {
+                ForEach(AppAppearance.allCases) { appearance in
+                    Text(appearance.title).tag(appearance)
+                }
+            }
+            .pickerStyle(.menu)
+            .tint(HydrogenTheme.helium)
         }
         .padding(12)
         .background(HydrogenTheme.elevatedSurface, in: RoundedRectangle(cornerRadius: 8, style: .continuous))

@@ -10,6 +10,7 @@ struct HydrogenApp: App {
         WindowGroup {
             BrowserView()
                 .environmentObject(store)
+                .preferredColorScheme(store.settings.appearance.colorScheme)
                 .onOpenURL { url in
                     store.openExternalURL(url)
                 }

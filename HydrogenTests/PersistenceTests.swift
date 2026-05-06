@@ -10,13 +10,22 @@ final class PersistenceTests: XCTestCase {
         let snapshot = BrowserSnapshot(
             bookmarks: [BookmarkItem(title: "Example", url: URL(string: "https://example.com")!)],
             history: [HistoryItem(title: "Duck", url: URL(string: "https://duckduckgo.com")!, visitedAt: Date(timeIntervalSince1970: 10))],
-            settings: BrowserSettings(isAdBlockEnabled: false)
+            settings: BrowserSettings(isAdBlockEnabled: false, appearance: .dark)
         )
 
         persistence.save(snapshot)
 
         XCTAssertEqual(persistence.load(), snapshot)
         try? FileManager.default.removeItem(at: url.deletingLastPathComponent())
+    }
+
+    func testSettingsDecodeMissingAppearanceDefaultsToSystem() throws {
+        let data = Data(#"{"isAdBlockEnabled":false,"searchEngine":"duckDuckGo"}"#.utf8)
+        let settings = try JSONDecoder.hydrogen.decode(BrowserSettings.self, from: data)
+
+        XCTAssertFalse(settings.isAdBlockEnabled)
+        XCTAssertEqual(settings.searchEngine, .duckDuckGo)
+        XCTAssertEqual(settings.appearance, .system)
     }
 
     @MainActor

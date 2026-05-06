@@ -151,6 +151,11 @@ final class BrowserStore: ObservableObject {
         save()
     }
 
+    func setAppearance(_ appearance: AppAppearance) {
+        settings.appearance = appearance
+        save()
+    }
+
     func shareItems() -> [Any] {
         guard let url = activeTab?.url else { return [] }
         return [url]
